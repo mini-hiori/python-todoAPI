@@ -33,7 +33,7 @@ def select_task(
         raise HTTPException(
             status_code=400,
             detail="task_idとtask_nameのどちらかは必須です"
-        )   
+        )
     if task_id:
         selected_task: Task = select_task_by_id(user_id,task_id)
     else:
