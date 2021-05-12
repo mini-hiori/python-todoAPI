@@ -1,7 +1,8 @@
 from src.schema import Task
 from datetime import datetime
 
-def select_task_by_id(created_by_id:str,task_id:int) -> Task:
+
+def select_task_by_id(created_by_id: str, task_id: int) -> Task:
     """
     created_by_idとtask_idでtaskを検索する
     """
@@ -12,11 +13,12 @@ def select_task_by_id(created_by_id:str,task_id:int) -> Task:
         description="test",
         created_date=datetime.now().strftime("%Y%m%d"),
         created_by="testuser",
-        created_by_id=created_by_id
+        created_by_id=created_by_id,
     )
     return task
 
-def select_task_by_name(created_by_id:str,task_name:str) -> Task:
+
+def select_task_by_name(created_by_id: str, task_name: str) -> Task:
     """
     task_nameでtaskを検索する
     """
@@ -27,6 +29,6 @@ def select_task_by_name(created_by_id:str,task_name:str) -> Task:
         description="test",
         created_date=datetime.now().strftime("%Y%m%d"),
         created_by="testuser",
-        created_by_id=created_by_id
+        created_by_id=created_by_id,
     )
     return task
