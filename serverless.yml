@@ -1,0 +1,45 @@
+service: python-todoapi
+
+provider:
+  name: aws
+  stage: prod
+  region: ap-northeast-1
+  deploymentBucket: mini-serverless-framework # デプロイ時に使うS3
+  logRetentionInDays: 30 # Cloudwatchのログ保存期間 無限課金防止
+  iam:
+    role: arn:aws:iam::${ssm:AccountID}:role/${ssm:DynamoDBRoleForLambda}
+
+# Lambdaを構築
+functions:
+  todoapi:
+    image: "${ssm:AccountID}.dkr.ecr.ap-northeast-1.amazonaws.com/${ssm:TodoApiRepository}"
+    timeout: 200
+    events: # APIGateway(Lambdaプロキシ統合)
+      - http:
+          integration: lambda-proxy
+          path: /{proxy+}
+          method: ANY
+          cors: true
+
+# DynamoDB構築
+resources:
+  Resources:
+    DynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        TableName: python-todoapi
+        BillingMode: PAY_PER_REQUEST # オンデマンドを指定
+        AttributeDefinitions:
+          -
+            AttributeName: task_id
+            AttributeType: N
+          -
+            AttributeName: created_date
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: task_id
+            KeyType: HASH
+          -
+            AttributeName: created_date
+            KeyType: RANGE
