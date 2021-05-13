@@ -11,8 +11,8 @@ app = FastAPI()
 
 @app.get("/")
 def health_check():
-    # ヘルスチェック用ルートエンドポイント
-    return "hello"
+    # 動作確認用ルートエンドポイント
+    return {"message":"hello"}
 
 
 @app.get("/select_task", response_model=Task)
