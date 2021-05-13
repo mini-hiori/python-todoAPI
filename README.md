@@ -7,7 +7,7 @@ todoを登録するREST API
 ## DynamoDBテーブル定義
 
 | user_id(PK) | task_id(SK) | task_name(LSI) | description | created_at | 
-| ---- | ---- | ---- |
+| ---- | ---- | ---- | ---- | ---- |
 | 1 | 1 | Zennに記事書く | TS×ffmpegの話 | 20210401 | 
 | 1 | 2 | AWSSummit出る | 特にコナミの事例が気になる | 20210501 |
 | 2 | 3 | 買い出し | 水がない | 20210403 | 
