@@ -1,9 +1,9 @@
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
-from schema import Task
+from src.schema import Task
 from typing import Optional
-from search_task import search_task_by_id, search_task_by_name
+from src.search_task import search_task_by_id, search_task_by_name
 from mangum import Mangum
 
 app = FastAPI()
@@ -12,7 +12,7 @@ app = FastAPI()
 @app.get("/")
 def health_check():
     # 動作確認用ルートエンドポイント
-    return {"message":"hello"}
+    return {"message": "hello"}
 
 
 @app.get("/search_task", response_model=Task)
@@ -38,4 +38,5 @@ def search_task(
 handler = Mangum(app)
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8000)
