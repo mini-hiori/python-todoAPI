@@ -1,6 +1,6 @@
 import boto3
 from typing import Dict
-from schema import Task
+from src.schema import Task
 
 def create_task(task: Task) -> None:
     """

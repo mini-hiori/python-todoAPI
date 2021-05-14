@@ -1,4 +1,4 @@
-from schema import Task
+from src.schema import Task
 from datetime import datetime
 
 
@@ -12,7 +12,7 @@ def search_task_by_id(user_id: str, task_id: int) -> Task:
         task_id=task_id,
         task_name="test_task",
         description="description",
-        created_at="20210514"
+        created_at="20210514",
     )
     return task
 
@@ -28,6 +28,6 @@ def search_task_by_name(user_id: str, task_name: str) -> Task:
         task_id=-1,
         task_name=task_name,
         description="description",
-        created_at="20210514"
+        created_at="20210514",
     )
     return task
