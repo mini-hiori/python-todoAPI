@@ -1,4 +1,4 @@
-from src.schema import Task
+from schema import Task
 from datetime import datetime
 
 

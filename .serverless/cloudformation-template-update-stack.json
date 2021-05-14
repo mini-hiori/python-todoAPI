@@ -13,7 +13,7 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "ImageUri": "163497904873.dkr.ecr.ap-northeast-1.amazonaws.com/python-todoapi@sha256:2e8074c6b10e58bdb809b3fd9c27fcc08e6c0371fffddfa2c22dbaedab1c38ff"
+          "ImageUri": "163497904873.dkr.ecr.ap-northeast-1.amazonaws.com/python-todoapi@sha256:28da580bfbea65164323362372a56a7a604726382b7e79fc2407103c46782cc8"
         },
         "PackageType": "Image",
         "FunctionName": "python-todoapi-prod-todoapi",
@@ -25,14 +25,14 @@
         "TodoapiLogGroup"
       ]
     },
-    "TodoapiLambdaVersionUZjGjmHHUSrGTT7Y7lfohY8APLqgqcOuJ4HQ8iP29s": {
+    "TodoapiLambdaVersionuxqe8PNs75lM2pQ2L8PbhUMGTvh7iC02RxRmaWC58E": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "TodoapiLambdaFunction"
         },
-        "CodeSha256": "2e8074c6b10e58bdb809b3fd9c27fcc08e6c0371fffddfa2c22dbaedab1c38ff"
+        "CodeSha256": "28da580bfbea65164323362372a56a7a604726382b7e79fc2407103c46782cc8"
       }
     },
     "ApiGatewayRestApi": {
@@ -150,7 +150,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1620862079876": {
+    "ApiGatewayDeployment1620949958659": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -207,22 +207,47 @@
         "BillingMode": "PAY_PER_REQUEST",
         "AttributeDefinitions": [
           {
+            "AttributeName": "user_id",
+            "AttributeType": "N"
+          },
+          {
             "AttributeName": "task_id",
             "AttributeType": "N"
           },
           {
-            "AttributeName": "created_date",
+            "AttributeName": "task_name",
             "AttributeType": "S"
           }
         ],
         "KeySchema": [
           {
-            "AttributeName": "task_id",
+            "AttributeName": "user_id",
             "KeyType": "HASH"
           },
           {
-            "AttributeName": "created_date",
+            "AttributeName": "task_id",
             "KeyType": "RANGE"
+          }
+        ],
+        "LocalSecondaryIndexes": [
+          {
+            "IndexName": "task_name_key",
+            "KeySchema": [
+              {
+                "AttributeName": "user_id",
+                "KeyType": "HASH"
+              },
+              {
+                "AttributeName": "task_name",
+                "KeyType": "RANGE"
+              }
+            ],
+            "Projection": {
+              "NonKeyAttributes": [
+                "task_id"
+              ],
+              "ProjectionType": "INCLUDE"
+            }
           }
         ]
       }
@@ -235,7 +260,7 @@
     "TodoapiLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "TodoapiLambdaVersionUZjGjmHHUSrGTT7Y7lfohY8APLqgqcOuJ4HQ8iP29s"
+        "Ref": "TodoapiLambdaVersionuxqe8PNs75lM2pQ2L8PbhUMGTvh7iC02RxRmaWC58E"
       }
     },
     "ServiceEndpoint": {

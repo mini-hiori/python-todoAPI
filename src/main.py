@@ -1,9 +1,9 @@
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
-from src.schema import Task
+from schema import Task
 from typing import Optional
-from src.search_task import search_task_by_id, search_task_by_name
+from search_task import search_task_by_id, search_task_by_name
 from mangum import Mangum
 
 app = FastAPI()
@@ -36,3 +36,6 @@ def search_task(
 
 
 handler = Mangum(app)
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
