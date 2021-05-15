@@ -8,7 +8,10 @@ todoを登録するREST API
 
 | user_id(PK) | task_id(SK) | task_name(LSI) | description | created_at | 
 | ---- | ---- | ---- | ---- | ---- |
-| 1 | 0a00 | Zennに記事書く | TS×ffmpegの話 | 20210401 | 
-| 1 | 01b2 | AWSSummit出る | 特にコナミの事例が気になる | 20210501 |
-| 2 | 1amx | 買い出し | 水がない | 20210301 | 
-| 2 | 2bms | 家の掃除 | ダンボールが… | 20210401 |
+| abc... | 012... | Zennに記事書く | TS×ffmpegの話 | 20210401 | 
+| def... | 345... | AWSSummit出る | 特にコナミの事例が気になる | 20210501 |
+| hij... | 678... | 買い出し | 水がない | 20210301 | 
+| klm... | 90... | 家の掃除 | ダンボールが… | 20210401 |
+
+- task_idは[uuid.uuid4()](https://dev.classmethod.jp/articles/how-generate-uuid-python-uuid4/)により生成する
+- user_idはCognitoの仕様による Python側で決められるならuuidで生成する
