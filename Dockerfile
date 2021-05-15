@@ -34,5 +34,6 @@ COPY requirements.txt /
 RUN chmod 755 /usr/bin/aws-lambda-rie /entry.sh
 RUN apk add git
 RUN pip install -r requirements.txt
+ENV PYTHONPATH ${FUNCTION_DIR}/src
 ENTRYPOINT [ "/entry.sh" ]
-CMD [ "src/main.handler" ]
+CMD [ "src/app.handler" ]
