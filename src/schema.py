@@ -1,8 +1,10 @@
 from pydantic import BaseModel
 from datetime import datetime
+from dataclasses import dataclass
 
 
-class Task(BaseModel):
+@dataclass
+class Task:
     task_id: str
     task_name: str
     description: str
@@ -16,7 +18,6 @@ class InputTask(BaseModel):
 
 
 class SearchTask(BaseModel):
-    session_id: str
     task_id: str
     task_name: str
 

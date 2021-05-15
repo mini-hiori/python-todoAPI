@@ -32,7 +32,7 @@ resources:
         AttributeDefinitions:
           -
             AttributeName: user_id
-            AttributeType: N
+            AttributeType: S
           -
             AttributeName: task_id
             AttributeType: S
