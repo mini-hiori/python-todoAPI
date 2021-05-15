@@ -1,8 +1,8 @@
-from src.schema import Task
+from schema import Task
 from datetime import datetime
 
 
-def search_task_by_id(user_id: str, task_id: int) -> Task:
+def search_task_by_id(user_id: int, task_id: str) -> Task:
     """
     user_idとtask_idでtaskを検索する
     """
@@ -17,7 +17,7 @@ def search_task_by_id(user_id: str, task_id: int) -> Task:
     return task
 
 
-def search_task_by_name(user_id: str, task_name: str) -> Task:
+def search_task_by_name(user_id: int, task_name: str) -> Task:
     """
     task_nameでtaskを検索する
     ※want to do。多分必須ではないが、普通のユースケースを考えたら存在するべきではある

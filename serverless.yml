@@ -13,7 +13,7 @@ provider:
 functions:
   todoapi:
     image: "${ssm:AccountID}.dkr.ecr.ap-northeast-1.amazonaws.com/${ssm:TodoApiRepository}"
-    timeout: 200
+    timeout: 30
     events: # APIGateway(Lambdaプロキシ統合)
       - http:
           integration: lambda-proxy
@@ -24,10 +24,10 @@ functions:
 # DynamoDB構築
 resources:
   Resources:
-    DynamoDbTable:
+    MainDynamoDBTable:
       Type: 'AWS::DynamoDB::Table'
       Properties:
-        TableName: python-todoapi
+        TableName: python-todoapi # タスク保存用table
         BillingMode: PAY_PER_REQUEST # オンデマンドを指定
         AttributeDefinitions:
           -
@@ -35,7 +35,7 @@ resources:
             AttributeType: N
           -
             AttributeName: task_id
-            AttributeType: N
+            AttributeType: S
           -
             AttributeName: task_name
             AttributeType: S
