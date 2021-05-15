@@ -22,7 +22,7 @@ def hello():
 
 
 @app.get("/search_task")
-def search_task(task_id: Optional[str] = None, task_name: Optional[str] = None):
+def search_task(task_id: Optional[str] = None, task_name: Optional[str] = None) -> List[Task]:
     """
     タスク検索用API
     ユーザー情報+task_name or での検索を受け付ける。

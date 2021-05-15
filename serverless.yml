@@ -7,7 +7,7 @@ provider:
   deploymentBucket: mini-serverless-framework # デプロイ時に使うS3
   logRetentionInDays: 30 # Cloudwatchのログ保存期間 無限課金防止
   iam:
-    role: arn:aws:iam::${ssm:AccountID}:role/${ssm:DynamoDBRoleForLambda}
+    role: arn:aws:iam::${ssm:AccountID}:role/${ssm:PythonTodoApiRole}
 
 # Lambdaを構築
 functions:
