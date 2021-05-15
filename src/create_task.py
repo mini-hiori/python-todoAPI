@@ -1,6 +1,6 @@
 import boto3
 from typing import Dict
-from schema import Task
+from schema import InputTask
 import traceback
 import hashlib
 import random
