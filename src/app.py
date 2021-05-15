@@ -44,7 +44,7 @@ def search_task(task_id: Optional[str] = None, task_name: Optional[str] = None):
                 "task_id": i.task_id,
                 "task_name": i.task_name,
                 "description": i.description,
-                "created_at": i.create_at,
+                "created_at": i.created_at,
             }
             for i in searched_task
         ]
