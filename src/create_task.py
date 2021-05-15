@@ -7,7 +7,7 @@ import random
 import uuid
 
 
-def create_task(user_id: str, task: Task) -> bool:
+def create_task(user_id: str, task: InputTask) -> bool:
     """
     DynamoDBに1つitem追加
     """

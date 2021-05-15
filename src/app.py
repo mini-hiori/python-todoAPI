@@ -22,7 +22,7 @@ def hello():
 
 
 @app.get("/search_task")
-def search_task(task_id: Optional[str] = None, task_name: Optional[str] = None):
+def search_task_api(task_id: Optional[str] = None, task_name: Optional[str] = None) -> List[Task]:
     """
     タスク検索用API
     ユーザー情報+task_name or での検索を受け付ける。
@@ -54,7 +54,7 @@ def search_task(task_id: Optional[str] = None, task_name: Optional[str] = None):
 
 
 @app.put("/create_task")
-def create_task(task: InputTask):
+def create_task_api(task: InputTask):
     """
     タスク追加用API
     """
@@ -69,7 +69,7 @@ def create_task(task: InputTask):
 
 
 @app.post("/update_task")
-def update_task(task: InputTask):
+def update_task_api(task: InputTask):
     """
     タスク更新用API
     """
@@ -84,7 +84,7 @@ def update_task(task: InputTask):
 
 
 @app.delete("/delete_task")
-def delete_task(task: InputTask):
+def delete_task_api(task: InputTask):
     """
     タスク追加用API
     """
