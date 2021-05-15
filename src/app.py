@@ -12,6 +12,14 @@ from typing import List
 app = FastAPI()
 
 
+@app.get("/hello")
+def hello():
+    """
+    動作確認用
+    """
+    return {"message": "hello"}
+
+
 @app.get("/search_task")
 def search_task(task_id: Optional[str], task_name: Optional[str]):
     """

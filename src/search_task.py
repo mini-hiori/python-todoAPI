@@ -2,6 +2,7 @@ from schema import Task
 from datetime import datetime
 from boto3.dynamodb.conditions import Key
 import boto3
+from typing import List
 
 
 def search_task_by_id(user_id: str, task_id: str) -> List[Task]:
@@ -11,8 +12,7 @@ def search_task_by_id(user_id: str, task_id: str) -> List[Task]:
     dynamodb = boto3.resource("dynamodb")
     table = dynamodb.Table("python-todoapi")
     response = table.query(
-        KeyConditionExpression=Key("user_id").eq(user_id)
-        & Key("task_id").begins_with(task_id)
+        KeyConditionExpression=Key("user_id").eq(user_id) & Key("task_id").eq(task_id)
     )
     if search_result.get("Item"):
         # 検索成功
