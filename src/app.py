@@ -8,6 +8,7 @@ from mangum import Mangum
 from create_task import create_task
 from update_task import update_task
 from typing import List
+import traceback
 
 app = FastAPI()
 
@@ -21,7 +22,7 @@ def hello():
 
 
 @app.get("/search_task")
-def search_task(task_id: Optional[str], task_name: Optional[str]):
+def search_task(task_id: Optional[str] = None, task_name: Optional[str] = None):
     """
     タスク検索用API
     ユーザー情報+task_name or での検索を受け付ける。
@@ -30,10 +31,13 @@ def search_task(task_id: Optional[str], task_name: Optional[str]):
     user_id = "-1"  # TODO:あとで、認証してuser_idを引く処理を入れる
     if not task_id and not task_name:
         raise HTTPException(status_code=400, detail="task_idとtask_nameのどちらかは必須です")
-    if task_id:
-        searched_task: List[Task] = search_task_by_id(user_id, task_name)
-    else:
-        searched_task: List[Task] = search_task_by_name(user_id, task_name)
+    try:
+        if task_id:
+            searched_task: List[Task] = [search_task_by_id(user_id, task_id)]
+        else:
+            searched_task: List[Task] = search_task_by_name(user_id, task_name)
+    except:
+        print(traceback.format_exc())
     if searched_task:
         result_list = [
             {
