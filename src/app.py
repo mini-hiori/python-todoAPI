@@ -1,7 +1,7 @@
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
-from schema import Task, InputTask, SearchTask, UpdateTask
+from schema import Task, InputTask, UpdateTask
 from typing import Optional
 from search_task import search_task_by_id, search_task_by_name
 from mangum import Mangum

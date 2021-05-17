@@ -17,10 +17,6 @@ class InputTask(BaseModel):
     description: str
 
 
-class SearchTask(BaseModel):
-    task_id: str
-    task_name: str
-
 
 class UpdateTask(BaseModel):
     task_id: str
