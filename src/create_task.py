@@ -5,6 +5,7 @@ import traceback
 import hashlib
 import random
 import uuid
+from datetime import datetime
 
 
 def create_task(user_id: str, task: InputTask) -> bool:
@@ -20,7 +21,8 @@ def create_task(user_id: str, task: InputTask) -> bool:
             "task_id": str(uuid.uuid4()),
             "task_name": task.task_name,
             "description": task.description,
-            "created_at": task.created_at,
+            "created_at": datetime.now().strftime("%Y%m%d"),
+            "updated_at": datetime.now().strftime("%Y%m%d"),
         }
         table.put_item(Item=put_task)
         return True
