@@ -1,12 +1,17 @@
 import boto3
 from typing import Dict
+import traceback
 
 
-def delete_task(task_id: str) -> None:
+def delete_task(user_id: str, task_id: str) -> bool:
     """
-    DynamoDBから情報を削除
+    DynamoDBからタスクを削除
     """
-    dynamodb = boto3.resource("dynamodb")
-    table = dynamodb.Table("テーブル名")
-    table.delete_item(Key={"task_id": task_id})
-    return None
+    try:
+        dynamodb = boto3.resource("dynamodb")
+        table = dynamodb.Table("python-todoapi")
+        table.delete_item(Key={"user_id": user_id, "task_id": task_id})
+        return True
+    except BaseException:
+        print(traceback.format_exc())
+        return False

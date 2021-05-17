@@ -9,17 +9,23 @@ class Task:
     task_name: str
     description: str
     created_at: str
+    updated_at: str
 
 
 class InputTask(BaseModel):
     task_name: str
     description: str
-    created_at: str
 
 
 class SearchTask(BaseModel):
     task_id: str
     task_name: str
+
+
+class UpdateTask(BaseModel):
+    task_id: str
+    task_name: str
+    description: str
 
 
 class UserInfo(BaseModel):

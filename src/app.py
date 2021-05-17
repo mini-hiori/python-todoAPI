@@ -1,7 +1,7 @@
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
-from schema import Task, InputTask, SearchTask
+from schema import Task, InputTask, SearchTask, UpdateTask
 from typing import Optional
 from search_task import search_task_by_id, search_task_by_name
 from mangum import Mangum
@@ -22,7 +22,9 @@ def hello():
 
 
 @app.get("/search_task")
-def search_task_api(task_id: Optional[str] = None, task_name: Optional[str] = None) -> List[Task]:
+def search_task_api(
+    task_id: Optional[str] = None, task_name: Optional[str] = None
+) -> List[Task]:
     """
     タスク検索用API
     ユーザー情報+task_name or での検索を受け付ける。
@@ -45,6 +47,7 @@ def search_task_api(task_id: Optional[str] = None, task_name: Optional[str] = No
                 "task_name": i.task_name,
                 "description": i.description,
                 "created_at": i.created_at,
+                "updated_at": i.updated_at,
             }
             for i in searched_task
         ]
@@ -69,28 +72,28 @@ def create_task_api(task: InputTask):
 
 
 @app.post("/update_task")
-def update_task_api(task: InputTask):
+def update_task_api(task: UpdateTask):
     """
     タスク更新用API
     """
     user_id = "-1"  # TODO:あとで、認証してuser_idを引く処理を入れる
-    if not task.task_name:
-        raise HTTPException(status_code=400, detail="task_nameは必須です")
+    if not task.task_name or not task.description:
+        raise HTTPException(status_code=400, detail="task_nameかdescriptionのどちらかは必須です")
     result = update_task(user_id, task)
     if result:
         return True
     else:
+        # TODO:updateするタスクがなかった時用のレスポンスを別途作る
         raise HTTPException(status_code=500, detail="登録時エラーが発生しました")
 
 
 @app.delete("/delete_task")
-def delete_task_api(task: InputTask):
+def delete_task_api(task_id: str):
     """
-    タスク追加用API
+    タスク削除用API
     """
-    if not task.task_name:
-        raise HTTPException(status_code=400, detail="task_nameは必須です")
-    result = create_task(task)
+    user_id = "-1"  # TODO:あとで、認証してuser_idを引く処理を入れる
+    result = delete_task(user_id, task_id)
     if result:
         return True
     else:
