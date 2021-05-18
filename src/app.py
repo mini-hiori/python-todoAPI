@@ -7,6 +7,7 @@ from search_task import search_task_by_id, search_task_by_name
 from mangum import Mangum
 from create_task import create_task
 from update_task import update_task
+from delete_task import delete_task
 from typing import List
 import traceback
 
