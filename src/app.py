@@ -81,7 +81,7 @@ def update_task_api(task: UpdateTask):
         raise HTTPException(status_code=400, detail="task_nameかdescriptionのどちらかは必須です")
     result = update_task(user_id, task)
     if result:
-        return True
+        return {"result":"OK"}
     else:
         # TODO:updateするタスクがなかった時用のレスポンスを別途作る
         raise HTTPException(status_code=500, detail="登録時エラーが発生しました")
@@ -95,7 +95,7 @@ def delete_task_api(task_id: str):
     user_id = "-1"  # TODO:あとで、認証してuser_idを引く処理を入れる
     result = delete_task(user_id, task_id)
     if result:
-        return True
+        return {"result":"OK"}
     else:
         raise HTTPException(status_code=500, detail="削除時エラーが発生しました")
 

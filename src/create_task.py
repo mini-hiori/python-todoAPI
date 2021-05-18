@@ -26,7 +26,7 @@ def create_task(user_id: str, task: InputTask) -> str:
             "updated_at": datetime.now().strftime("%Y%m%d"),
         }
         table.put_item(Item=put_task)
-        return True
+        return task_id
     except BaseException:
         print(traceback.format_exc())
         return None
