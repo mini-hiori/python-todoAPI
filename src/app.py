@@ -64,9 +64,9 @@ def create_task_api(task: InputTask):
     user_id = "-1"  # TODO:あとで、認証してuser_idを引く処理を入れる
     if not task.task_name:
         raise HTTPException(status_code=400, detail="task_nameは必須です")
-    result = create_task(user_id, task)
-    if result:
-        return "OK"
+    task_id = create_task(user_id, task)
+    if task_id:
+        return {"task_id": task_id}
     else:
         raise HTTPException(status_code=500, detail="登録時エラーが発生しました")
 
