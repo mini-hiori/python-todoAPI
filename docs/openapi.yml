@@ -1,0 +1,306 @@
+openapi: 3.0.2
+info:
+  title: python-todoAPI
+  version: 0.1.0
+servers:
+  - url: https://karioki.com/
+    description: 仮置き
+paths:
+  /hello:
+    get:
+      summary: Hello
+      description: 動作確認用
+      operationId: hello_hello_get
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Hello"
+  /search_task:
+    get:
+      summary: Search Task Api
+      description: |-
+        タスク検索用API
+        
+        task_idとtask_nameは検索クエリとしてどちらか片方は必須。
+        
+        両方入力した場合はtask_idでの検索を優先する。
+        
+        task_nameは常に前方一致検索を行う(うろ覚えで検索する場合の方が多いと思うので)
+      operationId: search_task_api_search_task_get
+      parameters:
+        - required: false
+          schema:
+            title: Task Id
+            type: string
+          name: task_id
+          in: query
+        - required: false
+          schema:
+            title: Task Name
+            type: string
+          name: task_name
+          in: query
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchedTask"
+        "400":
+          description: HTTPException(検索結果なし)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpExceptionError"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+        "500":
+          description: HTTPException(サーバーエラー)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpExceptionError"
+  /create_task:
+    put:
+      summary: Create Task Api
+      description: |-
+        タスク追加用API
+        
+        created_atとupdated_atはAPI処理で補われるため入力不要となっている
+      operationId: create_task_api_create_task_put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InputTask"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreatedTask"
+        "400":
+          description: HTTPException(検索結果なし)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpExceptionError"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+        "500":
+          description: HTTPException(サーバーエラー)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpExceptionError"
+  /update_task:
+    post:
+      summary: Update Task Api
+      description: |-
+        タスク更新用API
+        
+        bodyのtask_idに該当するtaskの情報を、bodyのtask_name/descriptionで上書きする
+        
+        空文字でのアップデートも受け付ける
+      operationId: update_task_api_update_task_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTask"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Result"
+        "400":
+          description: HTTPException(検索結果なし)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpExceptionError"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+        "500":
+          description: HTTPException(サーバーエラー)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpExceptionError"
+  /delete_task:
+    delete:
+      summary: Delete Task Api
+      description: |-
+        タスク削除用API
+        
+        入力されたtask_idに該当するtaskを削除する(task_idに該当するtaskがなくても今のところエラーにはならない)
+      operationId: delete_task_api_delete_task_delete
+      parameters:
+        - required: true
+          schema:
+            title: Task Id
+            type: string
+          name: task_id
+          in: query
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Result"
+        "400":
+          description: HTTPException(検索結果なし)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpExceptionError"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+        "500":
+          description: HTTPException(サーバーエラー)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpExceptionError"
+components:
+  schemas:
+    Hello:
+      title: Hello
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+    SearchedTask:
+      title: SearchedTask
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: "#/components/schemas/Task"
+    Task:
+      title: Task
+      type: object
+      properties:
+        task_id:
+          title: task_id
+          type: string
+        task_name:
+          title: task_name
+          type: string
+        description:
+          title: description
+          type: string
+        created_at:
+          title: created_at
+          type: string
+        updated_at:
+          title: updated_at
+          type: string
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: "#/components/schemas/ValidationError"
+    InputTask:
+      title: InputTask
+      required:
+        - task_name
+        - description
+      type: object
+      properties:
+        task_name:
+          title: Task Name
+          type: string
+        description:
+          title: Description
+          type: string
+    CreatedTask:
+      title: CreatedTask
+      type: object
+      properties:
+        task_id:
+          title: task_id
+          type: string
+    UpdateTask:
+      title: UpdateTask
+      required:
+        - task_id
+        - task_name
+        - description
+      type: object
+      properties:
+        task_id:
+          title: Task Id
+          type: string
+        task_name:
+          title: Task Name
+          type: string
+        description:
+          title: Description
+          type: string
+    Result:
+      title: Result
+      type: object
+      properties:
+        result:
+          title: result
+          type: string
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            type: string
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+    HttpExceptionError:
+      title: HttpExceptionError
+      type: object
+      properties:
+        detail:
+          title: detail
+          type: string

@@ -39,22 +39,23 @@ def search_task_api(
             searched_task: List[Task] = [search_task_by_id(user_id, task_id)]
         else:
             searched_task: List[Task] = search_task_by_name(user_id, task_name)
+        if searched_task:
+            result_list = [
+                {
+                    "task_id": i.task_id,
+                    "task_name": i.task_name,
+                    "description": i.description,
+                    "created_at": i.created_at,
+                    "updated_at": i.updated_at,
+                }
+                for i in searched_task
+            ]
+            return result_list
+        else:
+            raise HTTPException(status_code=400, detail="検索結果がありません")
     except:
         print(traceback.format_exc())
-    if searched_task:
-        result_list = [
-            {
-                "task_id": i.task_id,
-                "task_name": i.task_name,
-                "description": i.description,
-                "created_at": i.created_at,
-                "updated_at": i.updated_at,
-            }
-            for i in searched_task
-        ]
-        return result_list
-    else:
-        raise HTTPException(status_code=400, detail="検索結果がありません")
+        raise HTTPException(status_code=500, detail="検索時エラーが発生しました")
 
 
 @app.put("/create_task")
