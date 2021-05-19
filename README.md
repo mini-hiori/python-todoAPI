@@ -15,3 +15,6 @@ todoを登録するREST API
 
 - task_idは[uuid.uuid4()](https://dev.classmethod.jp/articles/how-generate-uuid-python-uuid4/)により生成する
 - user_idはCognitoの仕様による Python側で決められるならuuidで生成する
+
+## API仕様書
+[こちら](https://mini-hiori.github.io/python-todoAPI/)
