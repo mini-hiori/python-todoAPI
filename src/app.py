@@ -42,32 +42,28 @@ def search_task_api(
         raise HTTPException(status_code=400, detail="認証に失敗しています")
     if not task_id and not task_name:
         raise HTTPException(status_code=400, detail="task_idとtask_nameのどちらかは必須です")
-    try:
-        if task_id:
-            search_result: Task = search_task_by_id(user_id, task_id)
-            if search_result:
-                searched_task: List[Task] = [search_result]
-            else:
-                searched_task = []
+    if task_id:
+        search_result: Task = search_task_by_id(user_id, task_id)
+        if search_result:
+            searched_task: List[Task] = [search_result]
         else:
-            searched_task: List[Task] = search_task_by_name(user_id, task_name)
-        if searched_task:
-            result_list = [
-                {
-                    "task_id": i.task_id,
-                    "task_name": i.task_name,
-                    "description": i.description,
-                    "created_at": i.created_at,
-                    "updated_at": i.updated_at,
-                }
-                for i in searched_task
-            ]
-            return result_list
-        else:
-            raise HTTPException(status_code=400, detail="検索結果がありません")
-    except:
-        print(traceback.format_exc())
-        raise HTTPException(status_code=500, detail="検索時エラーが発生しました")
+            searched_task = []
+    else:
+        searched_task: List[Task] = search_task_by_name(user_id, task_name)
+    if searched_task:
+        result_list = [
+            {
+                "task_id": i.task_id,
+                "task_name": i.task_name,
+                "description": i.description,
+                "created_at": i.created_at,
+                "updated_at": i.updated_at,
+            }
+            for i in searched_task
+        ]
+        return result_list
+    else:
+        raise HTTPException(status_code=400, detail="検索結果がありません")
 
 
 @app.put("/create_task")
@@ -86,7 +82,7 @@ def create_task_api(request: Request, task: InputTask):
     if task_id:
         return {"task_id": task_id}
     else:
-        raise HTTPException(status_code=500, detail="登録時エラーが発生しました")
+        raise HTTPException(status_code=400, detail="task登録に失敗しました")
 
 
 @app.post("/update_task")
@@ -105,8 +101,7 @@ def update_task_api(request: Request, task: UpdateTask):
     if result:
         return {"result": "OK"}
     else:
-        # TODO:updateするタスクがなかった時用のレスポンスを別途作る
-        raise HTTPException(status_code=500, detail="登録時エラーが発生しました")
+        raise HTTPException(status_code=400, detail="指定したtask_idに該当するタスクがありません")
 
 
 @app.delete("/delete_task")
@@ -123,7 +118,7 @@ def delete_task_api(request: Request, task_id: str):
     if result:
         return {"result": "OK"}
     else:
-        raise HTTPException(status_code=500, detail="削除時エラーが発生しました")
+        raise HTTPException(status_code=400, detail="指定したtask_idに該当するタスクがありません")
 
 
 if __name__ == "__main__":
