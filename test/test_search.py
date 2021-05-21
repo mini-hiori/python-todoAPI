@@ -48,8 +48,11 @@ def test_search_multiple_succeed():
     )
     alpha = requests.get(url, headers=header)
     print(alpha.text)
-    assert json.loads(alpha.text)[0].get("task_id") == task_id, "test_search_multiple:errored"
+    assert (
+        json.loads(alpha.text)[0].get("task_id") == task_id
+    ), "test_search_multiple:errored"
     assert len(json.loads(alpha.text))
+
 
 def test_search_id_notfound():
     """
@@ -57,11 +60,10 @@ def test_search_id_notfound():
     """
     idtoken = os.environ["IDTOKEN"]
     header = {"Authorization": idtoken}
-    url = (
-        os.environ["API_URL"] + f"/search_task?task_id=-1"
-    )
+    url = os.environ["API_URL"] + f"/search_task?task_id=-1"
     alpha = requests.get(url, headers=header)
     assert alpha.status_code == 400, "test_search_id_notfound:errored"
+
 
 def test_search_name_notfound():
     """
@@ -69,11 +71,10 @@ def test_search_name_notfound():
     """
     idtoken = os.environ["IDTOKEN"]
     header = {"Authorization": idtoken}
-    url = (
-        os.environ["API_URL"] + f"/search_task?task_name=-1"
-    )
+    url = os.environ["API_URL"] + f"/search_task?task_name=-1"
     alpha = requests.get(url, headers=header)
     assert alpha.status_code == 400, "test_search_name_notfound:errored"
+
 
 def test_search_multiple_notfound():
     """
@@ -81,11 +82,10 @@ def test_search_multiple_notfound():
     """
     idtoken = os.environ["IDTOKEN"]
     header = {"Authorization": idtoken}
-    url = (
-        os.environ["API_URL"] + f"/search_task?task_id=-1&task_name=-1"
-    )
+    url = os.environ["API_URL"] + f"/search_task?task_id=-1&task_name=-1"
     alpha = requests.get(url, headers=header)
     assert alpha.status_code == 400, "test_search_multiple_notfound:errored"
+
 
 def test_search_noinput():
     """
@@ -93,8 +93,6 @@ def test_search_noinput():
     """
     idtoken = os.environ["IDTOKEN"]
     header = {"Authorization": idtoken}
-    url = (
-        os.environ["API_URL"] + f"/search_task"
-    )
+    url = os.environ["API_URL"] + f"/search_task"
     alpha = requests.get(url, headers=header)
     assert alpha.status_code == 400, "test_search_noinput:errored"

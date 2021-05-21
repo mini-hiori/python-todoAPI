@@ -21,4 +21,3 @@ def test_hello():
     print(result.text)
     assert result.status_code == 200, "Error"
     return json.loads(result.text)
-
