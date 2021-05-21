@@ -3,8 +3,9 @@ info:
   title: python-todoAPI
   version: 0.1.0
 servers:
-  - url: https://karioki.com/
-    description: 仮置き
+  - url: https://python-todoapi.mini-hiori.info/
+security:
+  - tokenAuth: []
 paths:
   /hello:
     get:
@@ -189,6 +190,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/HttpExceptionError"
 components:
+  securitySchemes:
+    tokenAuth:
+      type: "apiKey"
+      name: "Authorization"
+      description: "cognitoで認証した結果のIDtokenをAuthorizationヘッダで送る"
+      in: "header"
   schemas:
     Hello:
       title: Hello
