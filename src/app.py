@@ -10,8 +10,12 @@ from update_task import update_task
 from delete_task import delete_task
 from typing import List
 import traceback
+from starlette.requests import Request
+from authorization import get_userid_from_idtoken
 
 app = FastAPI()
+
+handler = Mangum(app)
 
 
 @app.get("/hello")
@@ -24,14 +28,18 @@ def hello():
 
 @app.get("/search_task")
 def search_task_api(
-    task_id: Optional[str] = None, task_name: Optional[str] = None
+    request: Request, task_id: Optional[str] = None, task_name: Optional[str] = None
 ) -> List[Task]:
     """
     タスク検索用API
     ユーザー情報+task_name or での検索を受け付ける。
     task_nameは部分一致でも良い
     """
-    user_id = "-1"  # TODO:あとで、認証してuser_idを引く処理を入れる
+    user_id = get_userid_from_idtoken(
+        request.scope["aws.event"]["headers"]["Authorization"]
+    )
+    if not user_id:
+        raise HTTPException(status_code=400, detail="認証に失敗しています")
     if not task_id and not task_name:
         raise HTTPException(status_code=400, detail="task_idとtask_nameのどちらかは必須です")
     try:
@@ -59,11 +67,15 @@ def search_task_api(
 
 
 @app.put("/create_task")
-def create_task_api(task: InputTask):
+def create_task_api(request: Request, task: InputTask):
     """
     タスク追加用API
     """
-    user_id = "-1"  # TODO:あとで、認証してuser_idを引く処理を入れる
+    user_id = get_userid_from_idtoken(
+        request.scope["aws.event"]["headers"]["Authorization"]
+    )
+    if not user_id:
+        raise HTTPException(status_code=400, detail="認証に失敗しています")
     if not task.task_name:
         raise HTTPException(status_code=400, detail="task_nameは必須です")
     task_id = create_task(user_id, task)
@@ -74,11 +86,15 @@ def create_task_api(task: InputTask):
 
 
 @app.post("/update_task")
-def update_task_api(task: UpdateTask):
+def update_task_api(request: Request, task: UpdateTask):
     """
     タスク更新用API
     """
-    user_id = "-1"  # TODO:あとで、認証してuser_idを引く処理を入れる
+    user_id = get_userid_from_idtoken(
+        request.scope["aws.event"]["headers"]["Authorization"]
+    )
+    if not user_id:
+        raise HTTPException(status_code=400, detail="認証に失敗しています")
     if not task.task_name or not task.description:
         raise HTTPException(status_code=400, detail="task_nameかdescriptionのどちらかは必須です")
     result = update_task(user_id, task)
@@ -90,11 +106,15 @@ def update_task_api(task: UpdateTask):
 
 
 @app.delete("/delete_task")
-def delete_task_api(task_id: str):
+def delete_task_api(request: Request, task_id: str):
     """
     タスク削除用API
     """
-    user_id = "-1"  # TODO:あとで、認証してuser_idを引く処理を入れる
+    user_id = get_userid_from_idtoken(
+        request.scope["aws.event"]["headers"]["Authorization"]
+    )
+    if not user_id:
+        raise HTTPException(status_code=400, detail="認証に失敗しています")
     result = delete_task(user_id, task_id)
     if result:
         return {"result": "OK"}
@@ -102,7 +122,6 @@ def delete_task_api(task_id: str):
         raise HTTPException(status_code=500, detail="削除時エラーが発生しました")
 
 
-handler = Mangum(app)
 if __name__ == "__main__":
     import uvicorn
 
