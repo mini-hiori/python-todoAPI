@@ -8,6 +8,9 @@ url = os.environ["API_URL"] + "/hello"
 
 
 def test_hello():
+    """
+    動作確認用エンドポイント(/hello)が動作することを確認する
+    """
     idtoken = os.environ["IDTOKEN"]
     header = {"Authorization": idtoken}
     test_task = {
@@ -18,7 +21,3 @@ def test_hello():
     print(result.text)
     assert result.status_code == 200, "Error"
     return json.loads(result.text)
-
-
-if __name__ == "__main__":
-    test_hello()
