@@ -7,9 +7,11 @@ url = os.environ["API_URL"] + "/delete_task"
 
 
 def test_delete(task_id: str):
+    idtoken = os.environ["IDTOKEN"]
+    header = {"Authorization": idtoken}
     target_url = url + f"?task_id={task_id}"
     print(target_url)
-    result = requests.delete(target_url)
+    result = requests.delete(target_url, headers=header)
     print(result.text)
     assert result.status_code == 200, "Error"
     assert json.loads(result.text)["result"] == "OK", "Error"
