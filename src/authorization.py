@@ -5,7 +5,9 @@ import traceback
 
 def decode_base64url(string: str) -> str:
     # https://qiita.com/c-yan/items/7eee72ad8eaa0f441017
-    return base64.urlsafe_b64decode(string + b"=" * ((4 - len(s) & 3) & 3)).decode()
+    return base64.urlsafe_b64decode(
+        string + b"=" * ((4 - len(string) & 3) & 3)
+    ).decode()
 
 
 def get_userid_from_idtoken(id_token: str) -> str:

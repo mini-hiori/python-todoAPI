@@ -7,17 +7,19 @@ url = os.environ["API_URL"] + "/search_task"
 
 
 def test_search_id_succeed(task_id: str):
-
+    idtoken = os.environ["IDTOKEN"]
+    header = {"Authorization": idtoken}
     url = os.environ["API_URL"] + f"/search_task?task_id={task_id}"
-    alpha = requests.get(url)
+    alpha = requests.get(url, headers=header)
     print(alpha.text)
     assert json.loads(alpha.text)[0].get("task_id"), "test_search_id:errored"
 
 
 def test_search_name_succeed(task_name: str):
-
+    idtoken = os.environ["IDTOKEN"]
+    header = {"Authorization": idtoken}
     url = os.environ["API_URL"] + f"/search_task?task_name={task_name}"
-    alpha = requests.get(url)
+    alpha = requests.get(url, headers=header)
     print(alpha.text)
     assert json.loads(alpha.text)[0].get("task_id"), "test_search_id:errored"
 

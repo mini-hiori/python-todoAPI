@@ -8,13 +8,15 @@ url = os.environ["API_URL"] + "/update_task"
 
 
 def test_update(task_id: str):
+    idtoken = os.environ["IDTOKEN"]
+    header = {"Authorization": idtoken}
     test_task = {
         "task_id": task_id,
         "task_name": "updated_task" + str(random.random()),
         "description": "updated_description" + str(random.random()),
     }
     print(test_task)
-    result = requests.post(url, json=test_task)
+    result = requests.post(url, json=test_task, headers=header)
     assert result.status_code == 200, "Error"
     assert json.loads(result.text)["result"] == "OK", "Error"
 
