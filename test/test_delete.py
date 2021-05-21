@@ -6,7 +6,11 @@ import os
 url = os.environ["API_URL"] + "/delete_task"
 
 
-def test_delete(task_id: str):
+def test_delete():
+    """
+    delete_taskが成功することを確認する
+    """
+    task_id = test_create()
     idtoken = os.environ["IDTOKEN"]
     header = {"Authorization": idtoken}
     target_url = url + f"?task_id={task_id}"
@@ -14,8 +18,3 @@ def test_delete(task_id: str):
     print(result.text)
     assert result.status_code == 200, "Error"
     assert json.loads(result.text)["result"] == "OK", "Error"
-
-
-if __name__ == "__main__":
-    task_id = test_create()
-    test_delete("a")

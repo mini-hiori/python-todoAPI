@@ -7,7 +7,8 @@ import os
 url = os.environ["API_URL"] + "/update_task"
 
 
-def test_update(task_id: str):
+def test_update():
+    task_id = test_create()
     idtoken = os.environ["IDTOKEN"]
     header = {"Authorization": idtoken}
     test_task = {

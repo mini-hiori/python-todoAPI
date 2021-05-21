@@ -8,6 +8,9 @@ url = os.environ["API_URL"] + "/create_task"
 
 
 def test_create():
+    """
+    create_taskが成功することを確認する
+    """
     idtoken = os.environ["IDTOKEN"]
     header = {"Authorization": idtoken}
     test_task = {
@@ -18,7 +21,3 @@ def test_create():
     print(result.text)
     assert result.status_code == 200, "Error"
     return json.loads(result.text)["task_id"]
-
-
-if __name__ == "__main__":
-    test_create()

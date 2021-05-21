@@ -44,7 +44,11 @@ def search_task_api(
         raise HTTPException(status_code=400, detail="task_idとtask_nameのどちらかは必須です")
     try:
         if task_id:
-            searched_task: List[Task] = [search_task_by_id(user_id, task_id)]
+            search_result:Task = search_task_by_id(user_id, task_id)
+            if search_result:
+                searched_task: List[Task] = [search_result]
+            else:
+            searched_task = []
         else:
             searched_task: List[Task] = search_task_by_name(user_id, task_name)
         if searched_task:
