@@ -19,5 +19,19 @@ def test_create():
     }
     result = requests.put(url, json=test_task, headers=header)
     print(result.text)
-    assert result.status_code == 200, "Error"
-    return json.loads(result.text)["task_id"]
+    assert result.status_code == 200, "Error:test_create"
+
+
+def test_notaskname():
+    """
+    task_nameを渡さないとcreate_taskが400エラーで失敗することを確認する
+    """
+    idtoken = os.environ["IDTOKEN"]
+    header = {"Authorization": idtoken}
+    test_task = {
+        "task_name": "",
+        "description": "test_description" + str(random.random()),
+    }
+    result = requests.put(url, json=test_task, headers=header)
+    print(result.text)
+    assert result.status_code == 400, "Error:test_create_notaskname"
