@@ -23,18 +23,6 @@ def test_delete():
     assert search_result.status_code == 400, "Error:test_delete"  # きちんと消えていることを確認
 
 
-def test_delete_noid():
-    """
-    delete_taskにtask_idを渡さないと400エラーとなることを確認する
-    """
-    idtoken = os.environ["IDTOKEN"]
-    header = {"Authorization": idtoken}
-    target_url = url
-    result = requests.delete(target_url, headers=header)
-    print(result.text)
-    assert result.status_code == 400, "Error:test_delete"
-
-
 def test_delete_invalidid():
     """
     delete_taskに存在しないtask_idを渡すと400エラーとなることを確認する

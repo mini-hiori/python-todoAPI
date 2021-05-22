@@ -20,7 +20,7 @@ def test_create():
     result = requests.put(url, json=test_task, headers=header)
     print(result.text)
     assert result.status_code == 200, "Error:test_create"
-
+    return json.loads(result.text)["task_id"]
 
 def test_notaskname():
     """

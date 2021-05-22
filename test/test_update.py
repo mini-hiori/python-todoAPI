@@ -28,23 +28,11 @@ def test_update():
     search_url = os.environ["API_URL"] + f"/search_task?task_id={task_id}"
     search_result = requests.get(search_url, headers=header)
     assert search_result.status_code == 200, "Error:test_update"
-    task_info = json.loads(search_result)[0]
+    task_info = json.loads(search_result.text)[0]
     assert (
         task_info["task_name"] == update_name
         and task_info["description"] == updated_description
     ), "Error:test_update"
-
-
-def test_update_noid():
-    """
-    update_taskにtask_idを渡さないと400エラーとなることを確認する
-    """
-    idtoken = os.environ["IDTOKEN"]
-    header = {"Authorization": idtoken}
-    target_url = url
-    result = requests.post(target_url, headers=header)
-    print(result.text)
-    assert result.status_code == 400, "Error:test_update"
 
 
 def test_update_invalidid():
@@ -53,8 +41,14 @@ def test_update_invalidid():
     """
     idtoken = os.environ["IDTOKEN"]
     header = {"Authorization": idtoken}
-    target_url = url + f"?task_id=invalidid"
-    result = requests.post(target_url, headers=header)
+    update_name = "updated_task" + str(random.random())
+    updated_description = "updated_description" + str(random.random())
+    test_task = {
+        "task_id": "invalidtaskid",
+        "task_name": update_name,
+        "description": updated_description,
+    }
+    result = requests.post(url, headers=header,json=test_task)
     print(result.text)
     assert result.status_code == 400, "Error:test_update"
 
