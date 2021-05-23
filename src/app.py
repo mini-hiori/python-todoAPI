@@ -1,4 +1,4 @@
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, Response
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from schema import Task, InputTask, UpdateTask
@@ -28,7 +28,7 @@ handler = Mangum(app)
 
 
 @app.get("/hello")
-def hello():
+def hello(response: Response):
     """
     動作確認用
     """
