@@ -32,6 +32,7 @@ def hello():
     """
     動作確認用
     """
+    response.headers["Access-Control-Allow-Origin"] = "*"
     return {"message": "hello"}
 
 
