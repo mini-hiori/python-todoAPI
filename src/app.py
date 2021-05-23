@@ -32,8 +32,8 @@ def hello(response: Response):
     """
     動作確認用
     """
-    response.headers["Access-Control-Allow-Headers"] = '*',
-    response.headers["Access-Control-Allow-Origin"] = '*',
+    response.headers["Access-Control-Allow-Headers"] = '*'
+    response.headers["Access-Control-Allow-Origin"] = '*'
     response.headers["Access-Control-Allow-Methods"] = '*'
     return {"message": "hello"}
 
