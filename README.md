@@ -3,6 +3,8 @@ todoを登録するREST API
 
 ## テスト
 [こちら](https://mini-hiori.github.io/python-todoAPI/gui.html)
+- todoアプリのフロントエンドをVue.js+bootstrapで作成
+    - Cognitoに登録済みのユーザーでログインでき、ユーザー単位でtask操作可能
 
 ## API仕様書
 [こちら](https://mini-hiori.github.io/python-todoAPI/)
