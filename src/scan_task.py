@@ -7,8 +7,8 @@ from typing import List
 
 def scan_task(user_id: int) -> List[Task]:
     """
-    task_nameでtaskを検索する
-    ※want to do。多分必須ではないが、普通のユースケースを考えたら存在するべきではある
+    task全選択用関数
+    初手で呼ばれる。一応明示的な検索と区別しておく
     """
     dynamodb = boto3.resource("dynamodb")
     table = dynamodb.Table("python-todoapi")

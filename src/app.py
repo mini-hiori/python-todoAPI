@@ -33,32 +33,45 @@ def hello(response: Response):
     """
     動作確認用
     """
+    response.headers["Access-Control-Allow-Headers"] = "*"
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "*"
     return {"message": "hello"}
 
+
 @app.get("/scan_task")
-def scan_task(
-    request: Request
-) -> List[Task]:
+def scan_task_api(response: Response, request: Request) -> List[Task]:
     """
     タスク全取得用API
     """
+    response.headers["Access-Control-Allow-Headers"] = "*"
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "*"
     user_id = get_userid_from_idtoken(
         request.scope["aws.event"]["headers"]["Authorization"]
     )
     if not user_id:
         raise HTTPException(status_code=400, detail="認証に失敗しています")
     loaded_task: List[Task] = scan_task(user_id)
+
     return loaded_task
+
 
 @app.get("/search_task")
 def search_task_api(
-    request: Request, task_id: Optional[str] = None, task_name: Optional[str] = None
+    response: Response,
+    request: Request,
+    task_id: Optional[str] = None,
+    task_name: Optional[str] = None,
 ) -> List[Task]:
     """
     タスク検索用API
     ユーザー情報+task_name or での検索を受け付ける。
     task_nameは部分一致でも良い
     """
+    response.headers["Access-Control-Allow-Headers"] = "*"
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "*"
     user_id = get_userid_from_idtoken(
         request.scope["aws.event"]["headers"]["Authorization"]
     )
@@ -91,10 +104,13 @@ def search_task_api(
 
 
 @app.put("/create_task")
-def create_task_api(request: Request, task: InputTask):
+def create_task_api(response: Response, request: Request, task: InputTask):
     """
     タスク追加用API
     """
+    response.headers["Access-Control-Allow-Headers"] = "*"
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "*"
     user_id = get_userid_from_idtoken(
         request.scope["aws.event"]["headers"]["Authorization"]
     )
@@ -110,10 +126,13 @@ def create_task_api(request: Request, task: InputTask):
 
 
 @app.post("/update_task")
-def update_task_api(request: Request, task: UpdateTask):
+def update_task_api(response: Response, request: Request, task: UpdateTask):
     """
     タスク更新用API
     """
+    response.headers["Access-Control-Allow-Headers"] = "*"
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "*"
     user_id = get_userid_from_idtoken(
         request.scope["aws.event"]["headers"]["Authorization"]
     )
@@ -129,10 +148,13 @@ def update_task_api(request: Request, task: UpdateTask):
 
 
 @app.delete("/delete_task")
-def delete_task_api(request: Request, task_id: str):
+def delete_task_api(response: Response, request: Request, task_id: str):
     """
     タスク削除用API
     """
+    response.headers["Access-Control-Allow-Headers"] = "*"
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "*"
     user_id = get_userid_from_idtoken(
         request.scope["aws.event"]["headers"]["Authorization"]
     )
