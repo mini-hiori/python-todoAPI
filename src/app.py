@@ -8,6 +8,7 @@ from mangum import Mangum
 from create_task import create_task
 from update_task import update_task
 from delete_task import delete_task
+from scan_task import scan_task
 from typing import List
 import traceback
 from starlette.requests import Request
@@ -32,11 +33,22 @@ def hello(response: Response):
     """
     動作確認用
     """
-    response.headers["Access-Control-Allow-Headers"] = '*'
-    response.headers["Access-Control-Allow-Origin"] = '*'
-    response.headers["Access-Control-Allow-Methods"] = '*'
     return {"message": "hello"}
 
+@app.get("/scan_task")
+def scan_task(
+    request: Request
+) -> List[Task]:
+    """
+    タスク全取得用API
+    """
+    user_id = get_userid_from_idtoken(
+        request.scope["aws.event"]["headers"]["Authorization"]
+    )
+    if not user_id:
+        raise HTTPException(status_code=400, detail="認証に失敗しています")
+    loaded_task: List[Task] = scan_task(user_id)
+    return loaded_task
 
 @app.get("/search_task")
 def search_task_api(

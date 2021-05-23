@@ -189,6 +189,31 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HttpExceptionError"
+  /scan_task:
+    get:
+      summary: Scan Task API
+      description: |-
+        タスク全取得用API
+      operationId: scan_task
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchedTask"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+        "500":
+          description: HTTPException(サーバーエラー)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpExceptionError"
 components:
   securitySchemes:
     tokenAuth:
