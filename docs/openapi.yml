@@ -155,7 +155,7 @@ paths:
       description: |-
         タスク削除用API
         
-        入力されたtask_idに該当するtaskを削除する(task_idに該当するtaskがなくても今のところエラーにはならない)
+        入力されたtask_idに該当するtaskを削除する
       operationId: delete_task_api_delete_task_delete
       parameters:
         - required: true

@@ -1,9 +1,12 @@
 # python-todoAPI
 todoを登録するREST API
 
+## テスト
+[こちら](https://mini-hiori.github.io/python-todoAPI/gui.html)
+
 ## API仕様書
 [こちら](https://mini-hiori.github.io/python-todoAPI/)
-- OpenAPI(yaml)形式で記載したものを(redoc-cli)[https://lunaticsol.wordpress.com/2020/05/18/generate-html-from-swagger-json-by-redoc-cli/]でhtml化しGithub Pagesでホストしている
+- OpenAPI(yaml)形式で記載したものを[redoc-cli](https://lunaticsol.wordpress.com/2020/05/18/generate-html-from-swagger-json-by-redoc-cli/)でhtml化しGithub Pagesでホストしている
 
 ## 構成図
 ![](https://raw.githubusercontent.com/mini-hiori/python-todoAPI/main/docs/architecture.png)

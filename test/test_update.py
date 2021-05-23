@@ -48,7 +48,7 @@ def test_update_invalidid():
         "task_name": update_name,
         "description": updated_description,
     }
-    result = requests.post(url, headers=header,json=test_task)
+    result = requests.post(url, headers=header, json=test_task)
     print(result.text)
     assert result.status_code == 400, "Error:test_update"
 

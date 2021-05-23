@@ -22,6 +22,7 @@ def test_create():
     assert result.status_code == 200, "Error:test_create"
     return json.loads(result.text)["task_id"]
 
+
 def test_notaskname():
     """
     task_nameを渡さないとcreate_taskが400エラーで失敗することを確認する
