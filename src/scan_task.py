@@ -19,7 +19,8 @@ def scan_task(user_id: int) -> List[Task]:
         result_list = []
         for i in scan_result["Items"]:
             task = search_task_by_id(user_id, i["task_id"])
-            result_list.append(task)
+            if task:
+                result_list.append(task)
         return result_list
     else:
         return None
