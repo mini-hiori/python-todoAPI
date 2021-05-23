@@ -26,13 +26,11 @@ new Vue({
                         'Authorization': self.idtoken,
                         'Content-Type': 'application/json'
                       },
-                    }).done(function(data1,textStatus,jqXHR) {		
-                            if (jqXHR.status === 200) {
-                                alert("TODO編集成功");
-                                self.scan_task();
-                            } else {
-                                alert("検索結果がありません");
-                            }
+                    }).done(function(data1,textStatus,jqXHR) {
+                        alert("TODO編集成功");
+                        self.scan_task();
+                    }).fail(function(jqXHR, textStatus, errorThrown){
+                        alert("検索結果がありません");
                     });
             } else {
                 alert("更新対象のTODOを1つだけ選択して、task_nameとdescriptionを入力してください");
@@ -54,13 +52,11 @@ new Vue({
                         'Authorization': self.idtoken,
                         'Content-Type': 'application/json'
                       },
-                    }).done(function(data1,textStatus,jqXHR) {		
-                            if (jqXHR.status === 200) {
-                                alert("TODO追加成功");
-                                self.scan_task();
-                            } else {
-                                alert("検索結果がありません");
-                            }
+                    }).done(function(data1,textStatus,jqXHR) {
+                        alert("TODO追加成功");
+                        self.scan_task();
+                    }).fail(function(jqXHR, textStatus, errorThrown){
+                        alert("検索結果がありません");
                     });
                 } else {
                     alert("task_nameとdescriptionを入力してください");
@@ -79,12 +75,10 @@ new Vue({
                             'Content-Type': 'application/json'
                         },
                         }).done(function(data1,textStatus,jqXHR) {		
-                                if (jqXHR.status === 200) {
-                                    alert("削除成功");
-                                    self.scan_task();
-                                } else {
-                                    alert("検索結果がありません");
-                                }
+                            alert("削除成功");
+                            self.scan_task();
+                        }).fail(function(jqXHR, textStatus, errorThrown){
+                            alert("検索結果がありません");
                         });
                 });
             } else {
@@ -105,13 +99,11 @@ new Vue({
                         'Content-Type': 'application/json'
                     },
                     }).done(function(data1,textStatus,jqXHR) {		
-                            if (jqXHR.status === 200) {
-                                alert("検索成功");
-                                self.searched_task = data1;
-                                self.selectedtask = [];
-                            } else {
-                                alert("検索結果がありません");
-                            }
+                        alert("検索成功");
+                        self.searched_task = data1;
+                        self.selectedtask = [];
+                    }).fail(function(jqXHR, textStatus, errorThrown){
+                        alert("検索結果がありません");
                     });
                 }
         },
