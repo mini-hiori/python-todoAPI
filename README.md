@@ -81,6 +81,7 @@ todoを登録するREST API
     - Linterも仕込める余地がある
 - serverless frameworkの活用
     - 少なくともCORS許可はserverless.yml内に書き込める
+- ユーザーのサインアップやメール検証を行うAPI/フロントが欲しい
 - テストサイトをGithub Pages→S3+CloudFrontにしたい
     - 純粋な技術的興味。コスト的にはPagesの方が良い
     - 他にもTypeScriptとかReactとか… そもそも単一componentだとグローバル変数一辺倒になってしまってスマートではない
