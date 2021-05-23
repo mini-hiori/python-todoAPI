@@ -14,57 +14,60 @@
 </head>
 <body>
   <h1>python-todoapi デモ</h1>
-  <span style="display: inline-block; width: 100px;">Username</span>
-  <input type="text" class="form-control" id="username" placeholder="Username">
-  <br/>
-  <span style="display: inline-block; width: 100px;">Password</span>
-  <input type="password"  class="form-control" id="password" placeholder="Password">
-  <br/>
-  <span style="display: inline-block; width: 100px;">UserPoolId</span>
-  <input type="password"  class="form-control" id="userpoolid" placeholder="UserPoolId">
-  <br/>
-  <span style="display: inline-block; width: 100px;">AppClientId</span>
-  <input type="password"  class="form-control" id="appclientid" placeholder="AppClientId">
   <br/><br/>
   <div class="todoapi">
-    <button type="button" class="btn btn-primary" @click="authorization">ログイン</button>
-    <button type="button" class="btn btn-success" @click="scan_task">TODO全取得</button>
-    <button type="button" class="btn btn-success" @click="search_task('test_')">TODO検索</button>
-    <button type="button" class="btn btn-warning" @click="create_task">TODO追加</button>
-    <button type="button" class="btn btn-info" @click="update_task">TODO編集</button>
-    <button type="button" class="btn btn-danger" @click="delete_task">TODO削除</button>
-    <button type="button" class="btn btn-secondary" @click="alert(selectedtask)">チェック</button>
-    <br/>
-    <span>追加/編集/検索用task_name</span>
-    <input type="password"  class="form-control" id="manual_task_name" placeholder="task_name">
-    <br/>
-    <span>追加/編集用description</span>
-    <input type="password"  class="form-control" id="manual_description" placeholder="description">
-    <br/>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>選択</th>
-          <th>task_id</th>
-          <th>task_name</th>
-          <th>description</th>
-          <th>created_at</th>
-          <th>updated_at</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="task in searched_task" :key="task.task_id">
-          <td>
-            <input :id="task.task_id" :value="task.task_id" type="checkbox" v-model="selectedtask">
-          </td>
-          <td> {{ task.task_id }} </td>
-          <td> {{ task.task_name }} </td>
-          <td> {{ task.description }} </td>
-          <td> {{ task.created_at }} </td>
-          <td> {{ task.updated_at }} </td>
-        </tr>
-      </tbody>
-    </table>
+    <div v-if="!is_login_success">
+      <span style="display: inline-block; width: 100px;">Username</span>
+      <input type="text" class="form-control" id="username" placeholder="Username">
+      <br/>
+      <span style="display: inline-block; width: 100px;">Password</span>
+      <input type="password"  class="form-control" id="password" placeholder="Password">
+      <br/>
+      <span style="display: inline-block; width: 100px;">UserPoolId</span>
+      <input type="password"  class="form-control" id="userpoolid" placeholder="UserPoolId">
+      <br/>
+      <span style="display: inline-block; width: 100px;">AppClientId</span>
+      <input type="password"  class="form-control" id="appclientid" placeholder="AppClientId">
+      <button type="button" class="btn btn-primary" @click="authorization">ログイン</button>
+    </div>
+    <div v-if="is_login_success">
+      <button type="button" class="btn btn-success" @click="scan_task">TODO全取得</button>
+      <button type="button" class="btn btn-success" @click="search_task('test_')">TODO検索</button>
+      <button type="button" class="btn btn-warning" @click="create_task">TODO追加</button>
+      <button type="button" class="btn btn-info" @click="update_task">TODO編集</button>
+      <button type="button" class="btn btn-danger" @click="delete_task">TODO削除</button>
+      <br/>
+      <span>追加/編集/検索用task_name</span>
+      <input type="password"  class="form-control" id="manual_task_name" placeholder="task_name">
+      <br/>
+      <span>追加/編集用description</span>
+      <input type="password"  class="form-control" id="manual_description" placeholder="description">
+      <br/>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>選択</th>
+            <th>task_id</th>
+            <th>task_name</th>
+            <th>description</th>
+            <th>created_at</th>
+            <th>updated_at</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="task in searched_task" :key="task.task_id">
+            <td>
+              <input :id="task.task_id" :value="task.task_id" type="checkbox" v-model="selectedtask">
+            </td>
+            <td> {{ task.task_id }} </td>
+            <td> {{ task.task_name }} </td>
+            <td> {{ task.description }} </td>
+            <td> {{ task.created_at }} </td>
+            <td> {{ task.updated_at }} </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   <script src="main.js"></script>
 </body>

@@ -1,6 +1,7 @@
 new Vue({
     el: '.todoapi',
     data: {
+        is_login_success: false,
         idtoken: '',
         searched_task: {},
         selectedtask: []
@@ -161,6 +162,7 @@ new Vue({
         
                     console.log("idToken : " + self.idtoken);
                     alert("ログイン成功");
+                    self.is_login_success = true;
                 },
         
                 onFailure: function(err) {

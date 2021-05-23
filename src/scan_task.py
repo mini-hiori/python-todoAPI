@@ -3,6 +3,7 @@ from datetime import datetime
 from boto3.dynamodb.conditions import Key
 import boto3
 from typing import List
+from search_task import search_task_by_id
 
 
 def scan_task(user_id: int) -> List[Task]:
