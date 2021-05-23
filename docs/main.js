@@ -4,22 +4,22 @@ new Vue({
         is_login_success: false,
         idtoken: '',
         searched_task: {},
-        selectedtask: []
+        selectedtask: [],
+        manual_task_name: '',
+        manual_description: ''
     },
     methods: {
         update_task: function () {
             let self = this;
-            let task_name = document.getElementById("manual_task_name").value;
-            let description = document.getElementById("manual_description").value;
             const data = {
-                "task_name":task_name,
-                "description":description
+                "task_id": self.selectedtask[0],
+                "task_name":self.manual_task_name,
+                "description":self.manual_description
             }
-
-            if (task_name && description && selectedtask.length == 1) {
+            if (self.manual_task_name && self.manual_description && self.selectedtask.length === 1) {
                 $.ajax({
-                    url: "https://python-todoapi.mini-hiori.info/create_task", // 通信先のURL
-                    type: "PUT",
+                    url: "https://python-todoapi.mini-hiori.info/update_task", // 通信先のURL
+                    type: "POST",
                     data: JSON.stringify(data),
                     dataType:"json",
                     headers: {
@@ -28,7 +28,8 @@ new Vue({
                       },
                     }).done(function(data1,textStatus,jqXHR) {		
                             if (jqXHR.status === 200) {
-                                alert("TODO追加成功");
+                                alert("TODO編集成功");
+                                self.scan_task();
                             } else {
                                 alert("検索結果がありません");
                             }
@@ -39,13 +40,11 @@ new Vue({
         },
         create_task: function () {
             let self = this;
-            let task_name = document.getElementById("manual_task_name").value;
-            let description = document.getElementById("manual_description").value;
             const data = {
-                "task_name":task_name,
-                "description":description
+                "task_name":self.manual_task_name,
+                "description":self.manual_description
             }
-            if (task_name && description) {
+            if (self.manual_task_name && self.manual_description) {
                 $.ajax({
                     url: "https://python-todoapi.mini-hiori.info/create_task", // 通信先のURL
                     type: "PUT",
@@ -58,40 +57,47 @@ new Vue({
                     }).done(function(data1,textStatus,jqXHR) {		
                             if (jqXHR.status === 200) {
                                 alert("TODO追加成功");
+                                self.scan_task();
                             } else {
                                 alert("検索結果がありません");
                             }
                     });
+                } else {
+                    alert("task_nameとdescriptionを入力してください");
                 }
         },
         delete_task: function () {
             let self = this;
-            self.selectedtask.forEach(task_id => {
-                $.ajax({
-                    url: "https://python-todoapi.mini-hiori.info/delete_task?task_id=" + task_id, // 通信先のURL
-                    type: "DELETE",
-                    dataType:"json",
-                    headers: {
-                        'Authorization': self.idtoken,
-                        'Content-Type': 'application/json'
-                      },
-                    }).done(function(data1,textStatus,jqXHR) {		
-                            if (jqXHR.status === 200) {
-                                alert("削除成功:" + task_id);
-                            } else {
-                                alert("検索結果がありません");
-                            }
-                    });
-            });
+            if (self.selectedtask.length > 0) {
+                self.selectedtask.forEach(task_id => {
+                    $.ajax({
+                        url: "https://python-todoapi.mini-hiori.info/delete_task?task_id=" + task_id, // 通信先のURL
+                        type: "DELETE",
+                        dataType:"json",
+                        headers: {
+                            'Authorization': self.idtoken,
+                            'Content-Type': 'application/json'
+                        },
+                        }).done(function(data1,textStatus,jqXHR) {		
+                                if (jqXHR.status === 200) {
+                                    alert("削除成功");
+                                    self.scan_task();
+                                } else {
+                                    alert("検索結果がありません");
+                                }
+                        });
+                });
+            } else {
+                alert("削除したいtaskを1つ以上選択してください");
+            }
         },
         search_task: function () {
             let self = this;
-            let task_name = document.getElementById("manual_task_name").value;
-            if (task_name) {
+            if (!self.manual_task_name) {
                 self.scan_task();
             } else {
                 $.ajax({
-                    url: "https://python-todoapi.mini-hiori.info/search_task?task_name=" + task_name, // 通信先のURL
+                    url: "https://python-todoapi.mini-hiori.info/search_task?task_name=" + self.manual_task_name, // 通信先のURL
                     type: "GET",
                     dataType:"json",
                     headers: {
@@ -102,7 +108,7 @@ new Vue({
                             if (jqXHR.status === 200) {
                                 alert("検索成功");
                                 self.searched_task = data1;
-                                console.log(self.searched_task);   
+                                self.selectedtask = [];
                             } else {
                                 alert("検索結果がありません");
                             }
@@ -121,13 +127,10 @@ new Vue({
                   },
                 }).done(function(data1,textStatus,jqXHR) {		
                         if (jqXHR.status === 200) {
-                            alert("TODO取得成功");
                             self.searched_task = data1;
-                            console.log(self.searched_task);   
-                        } else {
-                            alert("検索結果がありません");
-                        }
-                });
+                            self.selectedtask = [];
+                }
+            })
         },
         authorization: function() {
             let self = this;
@@ -159,10 +162,10 @@ new Vue({
             cognitoUser.authenticateUser(authenticationDetails, {
                 onSuccess: function(result) {
                     self.idtoken = result.getIdToken().getJwtToken();          // IDトークン
-        
-                    console.log("idToken : " + self.idtoken);
                     alert("ログイン成功");
                     self.is_login_success = true;
+                    console.log(self.idtoken);
+                    self.scan_task();
                 },
         
                 onFailure: function(err) {
