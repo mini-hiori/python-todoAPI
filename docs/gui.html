@@ -28,16 +28,17 @@
   <br/><br/>
   <div class="todoapi">
     <button type="button" class="btn btn-primary" @click="authorization">ログイン</button>
-    <button type="button" class="btn btn-success" @click="search_task('test_')">検索/リロード</button>
-    <button type="button" class="btn btn-warning" @click="search_task('test_')">TODO追加</button>
-    <button type="button" class="btn btn-info" @click="search_task('test_')">TODO編集</button>
+    <button type="button" class="btn btn-success" @click="scan_task">TODO全取得</button>
+    <button type="button" class="btn btn-success" @click="search_task('test_')">TODO検索</button>
+    <button type="button" class="btn btn-warning" @click="create_task">TODO追加</button>
+    <button type="button" class="btn btn-info" @click="update_task">TODO編集</button>
     <button type="button" class="btn btn-danger" @click="delete_task">TODO削除</button>
     <button type="button" class="btn btn-secondary" @click="alert(selectedtask)">チェック</button>
     <br/>
-    <span style="display: inline-block; width: 100px;">追加/編集/検索用task_name</span>
+    <span>追加/編集/検索用task_name</span>
     <input type="password"  class="form-control" id="manual_task_name" placeholder="task_name">
     <br/>
-    <span style="display: inline-block; width: 100px;">追加/編集用description</span>
+    <span>追加/編集用description</span>
     <input type="password"  class="form-control" id="manual_description" placeholder="description">
     <br/>
     <table class="table">
