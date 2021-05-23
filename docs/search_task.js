@@ -48,8 +48,8 @@ async function search_task() {
 function call_search_api(token,task_name) {
 	console.log("token:" + token);
     $.ajax({
-        url: "https://python-todoapi.mini-hiori.info/hello?task_name=" + task_name, // 通信先のURL
-        type: "POST",
+        url: "https://python-todoapi.mini-hiori.info/search_task?task_name=" + task_name, // 通信先のURL
+        type: "GET",
 		dataType:"json",
 		headers: {
 			'Authorization': token,
